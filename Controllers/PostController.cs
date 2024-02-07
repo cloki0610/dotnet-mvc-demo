@@ -20,9 +20,21 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Post
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Post.ToListAsync());
+            if (_context.Post == null)
+            {
+                return Problem("Entity set 'MvcBlogContext.Post'  is null.");
+            }
+
+            var posts = from p in _context.Post
+                        select p;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                posts = posts.Where(s => s.Heading!.Contains(searchString));
+            }
+            return View(await posts.ToListAsync());
         }
 
         // GET: Post/Details/5
