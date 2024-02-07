@@ -31,3 +31,4 @@ This code generator will generate a scaffold controller with CRUD routes and the
 ## Init db using migration
 1. dotnet ef migrations add InitialCreate
 2. dotnet ef database update
+- Optional: dotnet ef database drop -f -v to remove database

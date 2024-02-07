@@ -11,8 +11,8 @@ using dotnet_mvc.Data;
 namespace dotnet_mvc.Migrations
 {
     [DbContext(typeof(MvcBlogContext))]
-    [Migration("20240205144457_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240207162516_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
