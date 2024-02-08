@@ -1,13 +1,17 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace dotnet_mvc.Models;
 
 public class Post
 {
+    [Key]
     public Guid Id { get; set; }
     [Required, StringLength(15, MinimumLength = 3)]
-    public required string Author { get; set; }
+    [ForeignKey("User")]
+    public required string AuthorId { get; set; }
+    public required IdentityUser Author { get; set; }
     [Required, StringLength(30, MinimumLength = 5)]
     public required string Heading { get; set; }
     [Required, Display(Name = "Page Title"), StringLength(30, MinimumLength = 5)]

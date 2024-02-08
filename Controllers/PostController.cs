@@ -29,8 +29,8 @@ namespace dotnet_mvc.Controllers
 
             // Use LINQ to get list of author.
             IQueryable<string> authorQuery = from m in _context.Post
-                                             orderby m.Author
-                                             select m.Author;
+                                             orderby m.Author.UserName
+                                             select m.Author.UserName;
             var posts = from p in _context.Post
                         select p;
 
@@ -40,7 +40,7 @@ namespace dotnet_mvc.Controllers
             }
             if (!string.IsNullOrEmpty(postAuthor))
             {
-                posts = posts.Where(x => x.Author == postAuthor);
+                posts = posts.Where(x => x.Author.UserName == postAuthor);
             }
             var postAuthorVM = new PostAuthorViewModel
             {

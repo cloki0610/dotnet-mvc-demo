@@ -5,6 +5,7 @@ namespace dotnet_mvc.Models;
 
 public class Tag
 {
+    [Key]
     public Guid Id { get; set; }
     [Required]
     public required string Name { get; set; }
