@@ -7,7 +7,7 @@ namespace dotnet_mvc.Models;
 public class PostAuthorViewModel
 {
     public List<Post>? Posts { get; set; }
-    public SelectList? Author { get; set; }
+    public SelectList? Authors { get; set; }
     public string? PostAuthor { get; set; }
     public string? SearchString { get; set; }
 }

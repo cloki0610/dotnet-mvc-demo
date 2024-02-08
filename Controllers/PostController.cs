@@ -20,13 +20,17 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Post
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string postAuthor, string searchString)
         {
             if (_context.Post == null)
             {
                 return Problem("Entity set 'MvcBlogContext.Post'  is null.");
             }
 
+            // Use LINQ to get list of author.
+            IQueryable<string> authorQuery = from m in _context.Post
+                                             orderby m.Author
+                                             select m.Author;
             var posts = from p in _context.Post
                         select p;
 
@@ -34,7 +38,16 @@ namespace dotnet_mvc.Controllers
             {
                 posts = posts.Where(s => s.Heading!.Contains(searchString));
             }
-            return View(await posts.ToListAsync());
+            if (!string.IsNullOrEmpty(postAuthor))
+            {
+                posts = posts.Where(x => x.Author == postAuthor);
+            }
+            var postAuthorVM = new PostAuthorViewModel
+            {
+                Authors = new SelectList(await authorQuery.Distinct().ToListAsync()),
+                Posts = await posts.ToListAsync()
+            };
+            return View(postAuthorVM);
         }
 
         // GET: Post/Details/5
