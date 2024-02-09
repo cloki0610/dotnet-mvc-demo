@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dotnet_mvc.Data;
 using dotnet_mvc.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dotnet_mvc.Controllers
 {
@@ -20,6 +22,7 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Post
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string postAuthor, string searchString)
         {
             if (_context.Post == null)
@@ -51,6 +54,7 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Post/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -70,6 +74,7 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Post/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -79,6 +84,7 @@ namespace dotnet_mvc.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Heading,PageTitle,Content,ShortDescription,FeaturedImageUrl,UrlHandle,PublishDate,Visible,BlogId")] Post post)
         {
@@ -93,6 +99,7 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Post/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -112,6 +119,7 @@ namespace dotnet_mvc.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Heading,PageTitle,Content,ShortDescription,FeaturedImageUrl,UrlHandle,PublishDate,Visible,BlogId")] Post post)
         {
@@ -144,6 +152,7 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Post/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -163,6 +172,7 @@ namespace dotnet_mvc.Controllers
 
         // POST: Post/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dotnet_mvc.Data;
 using dotnet_mvc.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dotnet_mvc.Controllers
 {
@@ -20,6 +21,7 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Tag
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index(string searchString)
         {
             if (_context.Tag == null)
@@ -38,6 +40,7 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Tag/Details/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -56,6 +59,7 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Tag/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -65,6 +69,7 @@ namespace dotnet_mvc.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,DisplayName")] Tag tag)
         {
@@ -79,6 +84,7 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Tag/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -98,6 +104,7 @@ namespace dotnet_mvc.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,DisplayName")] Tag tag)
         {
@@ -130,6 +137,7 @@ namespace dotnet_mvc.Controllers
         }
 
         // GET: Tag/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -149,6 +157,7 @@ namespace dotnet_mvc.Controllers
 
         // POST: Tag/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {

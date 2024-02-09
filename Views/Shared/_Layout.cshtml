@@ -16,7 +16,7 @@
         <nav
             class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow">
             <div class="container">
-                <a class="navbar-brand fs-2 fw-bold" asp-area=""
+                <a class="navbar-brand fs-2 fw-bold hover" asp-area=""
                     asp-controller="Home" asp-action="Index">StandStill |
                     Blog</a>
                 <button class="navbar-toggler" type="button"
@@ -29,31 +29,32 @@
                     class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area=""
+                            <a class="nav-link text-light hover" asp-area=""
                                 asp-controller="Home"
                                 asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area=""
+                            <a class="nav-link text-light hover" asp-area=""
                                 asp-controller="Blog"
                                 asp-action="Index">Blog</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#"
+                            <a class="nav-link dropdown-toggle hover" href="#"
                                 id="navbarDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
-                                Admin
+                                Administrator
                             </a>
                             <div class="dropdown-menu"
                                 aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" asp-area=""
                                     asp-controller="Tag" asp-action="Create">Add
                                     Tag</a>
-                                <a class="dropdown-item" href="#">Another
+                                <a class="dropdown-item hover" href="#">Another
                                     action</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else
+                                <a class="dropdown-item hover"
+                                    href="#">Something else
                                     here</a>
                             </div>
                         </li>
