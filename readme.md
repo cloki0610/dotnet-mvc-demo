@@ -31,7 +31,8 @@ dotnet add package Microsoft.AspNetCore.Identity.UI
 
 ## Using code generator
 dotnet aspnet-codegenerator controller -name PostController -m Post -dc dotnet_mvc.Data.MvcBlogContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries --databaseProvider sqlite
-dotnet aspnet-codegenerator identity -dc dotnet_mvc.Data.MvcBlogContext --databaseProvider sqlite --files "Account.Register;Account.Login;Account.Logout"
+dotnet aspnet-codegenerator identity -dc dotnet_mvc.Data.MvcBlogContext --databaseProvider sqlite
+(optional: add '--files "Account.Register;Account.Login;Account.Logout"' to sepcify the required templates)
 
 (dotnet aspnet-codegenerator controller -h to get help)
 This code generator will generate a scaffold controller with CRUD routes and the related DB context.
@@ -41,3 +42,7 @@ This code generator will generate a scaffold controller with CRUD routes and the
 - Optional: you can seperate the initial table and authentication table migrations
 2. dotnet ef database update
 - Optional: dotnet ef database drop -f -v to remove database
+
+## Notes
+- If there are no administrator, the first registered user will be selected as admin. \
+(Line 120-125 from Areas\Identity\Pages\Account\Register.cshtml.cs)
