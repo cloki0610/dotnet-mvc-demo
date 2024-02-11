@@ -16,7 +16,7 @@ else
         ?? throw new InvalidOperationException("Connection string 'ProductionMvcBlogContext' not found.")));
 }
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>()
             .AddRoles<IdentityRole>().AddEntityFrameworkStores<MvcBlogContext>();
 
 
