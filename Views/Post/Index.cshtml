@@ -1,4 +1,4 @@
-@model IEnumerable<dotnet_mvc.Models.Post>
+@model dotnet_mvc.Models.PostAuthorViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -11,49 +11,46 @@
 </p>
 <form asp-controller="Post" asp-action="Index" method="get">
     <p>
-        Title: <input type="text" name="SearchString" />
+        Title: <input type="text" asp-for="SearchString" name="SearchString" />
         <input type="submit" value="Filter" />
+        <select asp-for="PostAuthor" asp-items="Model.Authors">
+            <option value="">All</option>
+        </select>
     </p>
 </form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Heading)
+                @Html.DisplayNameFor(model => model.Posts![0].Heading)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PageTitle)
+                @Html.DisplayNameFor(model => model.Posts![0].Content)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Content)
+                @Html.DisplayNameFor(model => model.Posts![0].ShortDescription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ShortDescription)
+                @Html.DisplayNameFor(model => model.Posts![0].FeaturedImageUrl)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FeaturedImageUrl)
+                @Html.DisplayNameFor(model => model.Posts![0].UrlHandle)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UrlHandle)
+                @Html.DisplayNameFor(model => model.Posts![0].PublishDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PublishDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Visible)
+                @Html.DisplayNameFor(model => model.Posts![0].Visible)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Posts!)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Heading)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PageTitle)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Content)

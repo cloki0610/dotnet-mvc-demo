@@ -6,23 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace dotnet_mvc.Migrations
 {
     /// <inheritdoc />
-    public partial class AddIdentification : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Author",
-                table: "Post");
-
-            migrationBuilder.AddColumn<string>(
-                name: "AuthorId",
-                table: "Post",
-                type: "TEXT",
-                maxLength: 15,
-                nullable: false,
-                defaultValue: "");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -60,6 +48,38 @@ namespace dotnet_mvc.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Post",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Author = table.Column<string>(type: "TEXT", nullable: false),
+                    Heading = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
+                    Content = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: false),
+                    ShortDescription = table.Column<string>(type: "TEXT", nullable: true),
+                    FeaturedImageUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    UrlHandle = table.Column<string>(type: "TEXT", nullable: true),
+                    PublishDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Visible = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Post", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tag",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    DisplayName = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tag", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -168,10 +188,29 @@ namespace dotnet_mvc.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Post_AuthorId",
-                table: "Post",
-                column: "AuthorId");
+            migrationBuilder.CreateTable(
+                name: "PostTag",
+                columns: table => new
+                {
+                    Post = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Tag = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostTag", x => new { x.Post, x.Tag });
+                    table.ForeignKey(
+                        name: "FK_PostTag_Post_Tag",
+                        column: x => x.Tag,
+                        principalTable: "Post",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PostTag_Tag_Post",
+                        column: x => x.Post,
+                        principalTable: "Tag",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -210,22 +249,15 @@ namespace dotnet_mvc.Migrations
                 column: "NormalizedUserName",
                 unique: true);
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Post_AspNetUsers_AuthorId",
-                table: "Post",
-                column: "AuthorId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            migrationBuilder.CreateIndex(
+                name: "IX_PostTag_Tag",
+                table: "PostTag",
+                column: "Tag");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Post_AspNetUsers_AuthorId",
-                table: "Post");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -242,25 +274,19 @@ namespace dotnet_mvc.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "PostTag");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Post_AuthorId",
-                table: "Post");
+            migrationBuilder.DropTable(
+                name: "Post");
 
-            migrationBuilder.DropColumn(
-                name: "AuthorId",
-                table: "Post");
-
-            migrationBuilder.AddColumn<string>(
-                name: "Author",
-                table: "Post",
-                type: "TEXT",
-                nullable: false,
-                defaultValue: "");
+            migrationBuilder.DropTable(
+                name: "Tag");
         }
     }
 }

@@ -11,8 +11,8 @@ using dotnet_mvc.Data;
 namespace dotnet_mvc.Migrations
 {
     [DbContext(typeof(MvcBlogContext))]
-    [Migration("20240208192357_AddIdentification")]
-    partial class AddIdentification
+    [Migration("20240215032852_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -237,9 +237,8 @@ namespace dotnet_mvc.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("AuthorId")
+                    b.Property<string>("Author")
                         .IsRequired()
-                        .HasMaxLength(15)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
@@ -251,11 +250,6 @@ namespace dotnet_mvc.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Heading")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PageTitle")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("TEXT");
@@ -273,8 +267,6 @@ namespace dotnet_mvc.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.ToTable("Post");
                 });
@@ -361,17 +353,6 @@ namespace dotnet_mvc.Migrations
                         .HasForeignKey("Tag")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("dotnet_mvc.Models.Post", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
                 });
 #pragma warning restore 612, 618
         }

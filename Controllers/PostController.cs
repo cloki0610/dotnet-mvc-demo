@@ -15,10 +15,12 @@ namespace dotnet_mvc.Controllers
     public class PostController : Controller
     {
         private readonly MvcBlogContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public PostController(MvcBlogContext context)
+        public PostController(MvcBlogContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Post
@@ -32,8 +34,8 @@ namespace dotnet_mvc.Controllers
 
             // Use LINQ to get list of author.
             IQueryable<string> authorQuery = from m in _context.Post
-                                             orderby m.Author.UserName
-                                             select m.Author.UserName;
+                                             orderby m.Author
+                                             select m.Author;
             var posts = from p in _context.Post
                         select p;
 
@@ -43,7 +45,7 @@ namespace dotnet_mvc.Controllers
             }
             if (!string.IsNullOrEmpty(postAuthor))
             {
-                posts = posts.Where(x => x.Author.UserName == postAuthor);
+                posts = posts.Where(x => x.Author == postAuthor);
             }
             var postAuthorVM = new PostAuthorViewModel
             {
@@ -86,14 +88,20 @@ namespace dotnet_mvc.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Heading,PageTitle,Content,ShortDescription,FeaturedImageUrl,UrlHandle,PublishDate,Visible,BlogId")] Post post)
+        public async Task<IActionResult> Create([Bind("Author,Heading,Content,ShortDescription,FeaturedImageUrl,UrlHandle")] Post post)
         {
             if (ModelState.IsValid)
             {
                 post.Id = Guid.NewGuid();
+                post.PublishDate = DateTime.Now.Date;
+                post.Visible = true;
                 _context.Post.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                Console.WriteLine("Invalid");
             }
             return View(post);
         }
@@ -121,7 +129,7 @@ namespace dotnet_mvc.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Heading,PageTitle,Content,ShortDescription,FeaturedImageUrl,UrlHandle,PublishDate,Visible,BlogId")] Post post)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Author,Heading,Content,ShortDescription,FeaturedImageUrl,UrlHandle,Visible")] Post post)
         {
             if (id != post.Id)
             {

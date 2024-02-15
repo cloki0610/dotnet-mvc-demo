@@ -21,6 +21,7 @@ using Microsoft.Extensions.Logging;
 
 namespace dotnet_mvc.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -60,12 +61,6 @@ namespace dotnet_mvc.Areas.Identity.Pages.Account
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
             /// <summary>
@@ -77,6 +72,9 @@ namespace dotnet_mvc.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            [Required]
+            [Display(Name = "User name")]
+            public string NormalizedUserName { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -98,10 +96,10 @@ namespace dotnet_mvc.Areas.Identity.Pages.Account
         }
 
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public void OnGet(string returnUrl = null)
         {
+            returnUrl ??= Url.Content("~/");
             ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -122,6 +120,10 @@ namespace dotnet_mvc.Areas.Identity.Pages.Account
                     {
                         await _roleManager.CreateAsync(new IdentityRole("Administrator"));
                         await _userManager.AddToRoleAsync(user, "Administrator");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
                     }
 
                     _logger.LogInformation("User created a new account with password.");

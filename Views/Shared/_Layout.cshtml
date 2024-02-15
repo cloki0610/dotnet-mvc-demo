@@ -7,8 +7,6 @@
     <title>@ViewData["Title"] - StandStill</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/dotnet_mvc.styles.css"
-        asp-append-version="true" />
 </head>
 
 <body>
@@ -35,31 +33,11 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light hover" asp-area=""
-                                asp-controller="Blog"
+                                asp-controller="Post"
                                 asp-action="Index">Blog</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle hover" href="#"
-                                id="navbarDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                Administrator
-                            </a>
-                            <div class="dropdown-menu"
-                                aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-area=""
-                                    asp-controller="Tag" asp-action="Create">Add
-                                    Tag</a>
-                                <a class="dropdown-item hover" href="#">Another
-                                    action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item hover"
-                                    href="#">Something else
-                                    here</a>
-                            </div>
-                        </li>
-                        <partial name="_LoginPartial" />
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>

@@ -23,7 +23,6 @@ builder.Services.AddDefaultIdentity<IdentityUser>()
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
 
 builder.Services.AddAuthorization(options =>
 {
